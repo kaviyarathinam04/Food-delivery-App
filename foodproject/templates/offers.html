@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hot Food Offers</title>
+
+<style>
+body{
+    margin:0;
+    font-family: Arial;
+    background: #f4f6fb;
+}
+
+/* NEW COOL NAVBAR */
+.navbar{
+    background: linear-gradient(90deg,#6a11cb,#2575fc);
+    padding:18px;
+    text-align:center;
+    color:white;
+    font-size:24px;
+    font-weight:bold;
+    letter-spacing:1px;
+}
+
+/* HERO */
+.hero{
+    text-align:center;
+    padding:25px;
+}
+
+.hero h2{
+    margin:0;
+    font-size:30px;
+    color:#222;
+}
+
+.hero p{
+    color:#666;
+}
+
+/* GRID */
+.container{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+    padding:20px;
+}
+
+/* CARD */
+.card{
+    position:relative;
+    border-radius:16px;
+    overflow:hidden;
+    background:white;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform: translateY(-10px);
+    box-shadow:0 15px 30px rgba(0,0,0,0.15);
+}
+
+.card img{
+    width:100%;
+    height:160px;
+    object-fit:cover;
+}
+
+/* BADGE */
+.badge{
+    position:absolute;
+    top:10px;
+    left:10px;
+    background: linear-gradient(90deg,#ff416c,#ff4b2b);
+    color:white;
+    padding:5px 10px;
+    font-size:12px;
+    border-radius:20px;
+}
+
+/* CONTENT */
+.content{
+    padding:12px;
+}
+
+.title{
+    font-size:17px;
+    font-weight:bold;
+    color:#222;
+}
+
+.desc{
+    font-size:13px;
+    color:#666;
+    margin:5px 0;
+}
+
+.price{
+    color:#28a745;
+    font-weight:bold;
+    margin-top:5px;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:10px;
+    padding:8px 12px;
+    background: linear-gradient(90deg,#6a11cb,#2575fc);
+    color:white;
+    border-radius:8px;
+    text-decoration:none;
+    font-size:13px;
+}
+
+/* hover glow */
+.btn:hover{
+    transform:scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">🔥 Hot Food Offers</div>
+
+<div class="hero">
+    <h2>Today’s Mega Food Deals 😍</h2>
+    <p>10 Limited Time Offers – Grab Fast!</p>
+</div>
+
+<div class="container">
+
+    <!-- 10 FOOD CARDS -->
+
+    <div class="card">
+        <div class="badge">50% OFF</div>
+        <img src="https://source.unsplash.com/400x300/?pizza" alt="">
+        <div class="content">
+            <div class="title">Cheese Pizza</div>
+            <div class="desc">Extra cheese & soft crust</div>
+            <div class="price">₹149</div>
+            <a href="#" class="btn">Order Now</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="badge">HOT</div>
+        <img src="https://source.unsplash.com/400x300/?burger" alt="">
+        <div class="content">
+            <div class="title">Chicken Burger</div>
+            <div class="desc">Juicy grilled burger</div>
+            <div class="price">₹99</div>
+            <a href="#" class="btn">Order Now</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="badge">40% OFF</div>
+        <img src="https://source.unsplash.com/400x300/?biryani" alt="">
+        <div class="content">
+            <div class="title">Chicken Biryani</div>
+            <div class="desc">Spicy & flavorful combo</div>
+            <div class="price">₹199</div>
+            <a href="#" class="btn">Order Now</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="badge">NEW</div>
+        <img src="https://source.unsplash.com/400x300/?noodles" alt="">
+        <div class="content">
+            <div class="title">Veg Noodles</div>
+            <div class="desc">Street style spicy noodles</div>
+            <div class="price">₹89</div>
+            <a href="#" class="btn">Order Now</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="badge">30% OFF</div>
+        <img src="https://source.unsplash.com/400x300/?fried-chicken" alt="">
+        <div class="content">
+            <div class="title">Fried Chicken</div>
+            <div class="desc">Crispy golden chicken</div>
+            <div class="price">₹159</div>
+            <a href="#" class="btn">Order Now</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="badge">BEST</div>
+        <img src="https://source.unsplash.com/400x300/?sandwich" alt="">
+        <div class="content">
+            <div class="title">Veg Sandwich</div>
+            <div class="desc">Cheese & veggies combo</div>
+            <div class="price">₹69</div>
+            <a href="#" class="btn">Order Now</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="badge">HOT</div>
+        <img src="https://source.unsplash.com/400x300/?tacos" alt="">
+        <div class="content">
+            <div class="title">Tacos</div>
+            <div class="desc">Mexican spicy taste</div>
+            <div class="price">₹129</div>
+            <a href="#" class="btn">Order Now</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="badge">COMBO</div>
+        <img src="https://source.unsplash.com/400x300/?shawarma" alt="">
+        <div class="content">
+            <div class="title">Chicken Shawarma</div>
+            <div class="desc">Roll + sauces combo</div>
+            <div class="price">₹110</div>
+            <a href="#" class="btn">Order Now</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="badge">LIMITED</div>
+        <img src="https://source.unsplash.com/400x300/?pasta" alt="">
+        <div class="content">
+            <div class="title">White Sauce Pasta</div>
+            <div class="desc">Creamy Italian taste</div>
+            <div class="price">₹139</div>
+            <a href="#" class="btn">Order Now</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="badge">SPECIAL</div>
+        <img src="https://source.unsplash.com/400x300/?ice-cream" alt="">
+        <div class="content">
+            <div class="title">Ice Cream</div>
+            <div class="desc">Sweet dessert combo</div>
+            <div class="price">₹59</div>
+            <a href="#" class="btn">Order Now</a>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html> 

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart</title>
+</head>
+<body>
+
+<h1>Your Cart</h1>
+
+{% for item in cart_items %}
+    <h3>{{ item }}</h3>
+{% empty %}
+    <h3>Cart Empty</h3>
+{% endfor %}
+
+</body>
+</html>
