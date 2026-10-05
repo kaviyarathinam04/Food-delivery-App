@@ -1,278 +1,184 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{% block title %}Foodie | Create Account{% endblock %}
+    <title>Create Account - Foodie</title>
 
-{% block extra_css %}
-
-<style>
-
-    .register-section {
-        min-height: 75vh;
-        padding: 65px 15px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background:
-            radial-gradient(
-                circle at top,
-                #fff1e4,
-                #fffaf5 55%,
-                #ffffff
-            );
-    }
-
-    .register-card {
-        width: 100%;
-        max-width: 480px;
-        background: white;
-        border: 1px solid var(--border);
-        border-radius: 26px;
-        padding: 40px;
-        box-shadow: 0 18px 50px rgba(70, 35, 10, 0.08);
-    }
-
-    .register-logo {
-        width: 65px;
-        height: 65px;
-        margin: 0 auto 20px;
-        border-radius: 18px;
-        background: #fff0e5;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 30px;
-    }
-
-    .register-card h1 {
-        font-family: "DM Serif Display", serif;
-        color: var(--brown);
-        font-size: 40px;
-        text-align: center;
-        margin-bottom: 8px;
-    }
-
-    .register-subtitle {
-        color: var(--muted);
-        text-align: center;
-        font-size: 13px;
-        margin-bottom: 30px;
-    }
-
-    .message-box {
-        padding: 12px 15px;
-        border-radius: 12px;
-        background: #fff0e5;
-        color: #9b3d00;
-        font-size: 13px;
-        margin-bottom: 18px;
-    }
-
-    .form-group {
-        margin-bottom: 18px;
-    }
-
-    .form-group label {
-        display: block;
-        color: var(--brown);
-        font-size: 13px;
-        font-weight: 800;
-        margin-bottom: 8px;
-    }
-
-    .form-group input {
-        width: 100%;
-        box-sizing: border-box;
-        padding: 14px 16px;
-        border: 1px solid var(--border);
-        border-radius: 13px;
-        outline: none;
-        background: #fffdfb;
-        font-size: 14px;
-        transition: 0.2s;
-    }
-
-    .form-group input:focus {
-        border-color: var(--orange);
-        box-shadow: 0 0 0 3px rgba(232, 93, 4, 0.08);
-    }
-
-    .register-btn {
-        width: 100%;
-        border: none;
-        cursor: pointer;
-        padding: 15px;
-        margin-top: 5px;
-        border-radius: 30px;
-        background: var(--orange);
-        color: white;
-        font-size: 14px;
-        font-weight: 800;
-        transition: 0.25s;
-    }
-
-    .register-btn:hover {
-        background: var(--brown);
-        transform: translateY(-2px);
-    }
-
-    .login-text {
-        text-align: center;
-        color: var(--muted);
-        font-size: 13px;
-        margin-top: 24px;
-    }
-
-    .login-text a {
-        color: var(--orange);
-        font-weight: 800;
-        text-decoration: none;
-    }
-
-    .login-text a:hover {
-        color: var(--brown);
-    }
-
-    .password-note {
-        color: var(--muted);
-        font-size: 11px;
-        margin-top: 6px;
-    }
-
-    @media (max-width: 500px) {
-
-        .register-card {
-            padding: 30px 22px;
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
         }
 
-        .register-card h1 {
-            font-size: 35px;
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fff3e8, #ffe0c2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 15px;
         }
 
-    }
+        .register-box {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            padding: 35px;
+            border-radius: 22px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
 
-</style>
+        .logo {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #ff5a1f;
+            margin-bottom: 8px;
+        }
 
-{% endblock %}
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 28px;
+        }
 
+        label {
+            display: block;
+            margin: 15px 0 7px;
+            font-weight: bold;
+            color: #333;
+        }
 
-{% block content %}
+        input {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            outline: none;
+            font-size: 15px;
+        }
 
-<section class="register-section">
+        input:focus {
+            border-color: #ff5a1f;
+        }
 
-    <div class="register-card">
+        .register-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #ff512f, #ff7a18);
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-        <div class="register-logo">
-            🍴
+        .register-btn:hover {
+            opacity: 0.9;
+        }
+
+        .error {
+            background: #ffe5e5;
+            color: #d60000;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+
+        .login-link a {
+            color: #ff5a1f;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #999;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="register-box">
+
+    <div class="logo">Foodie 🍴</div>
+
+    <p class="subtitle">
+        Create your account and start your Foodie journey.
+    </p>
+
+    {% if error %}
+        <div class="error">
+            {{ error }}
         </div>
+    {% endif %}
 
+    <form method="POST">
+        {% csrf_token %}
 
-        <h1>
-            Create Account
-        </h1>
-
-
-        <p class="register-subtitle">
-            Join Foodie and discover delicious food.
-        </p>
-
-
-        {% if messages %}
-
-            {% for message in messages %}
-
-                <div class="message-box">
-                    {{ message }}
-                </div>
-
-            {% endfor %}
-
-        {% endif %}
-
-
-        <form
-            method="POST"
-            action="{% url 'users:register' %}"
+        <label>Username</label>
+        <input
+            type="text"
+            name="username"
+            placeholder="Enter your username"
+            required
         >
 
-            {% csrf_token %}
+        <label>Email Address</label>
+        <input
+            type="email"
+            name="email"
+            placeholder="Enter your email address"
+            required
+        >
 
+        <label>Password</label>
+        <input
+            type="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+        >
 
-            <div class="form-group">
+        <label>Confirm Password</label>
+        <input
+            type="password"
+            name="confirm_password"
+            placeholder="Confirm your password"
+            required
+        >
 
-                <label>
-                    Username
-                </label>
+        <button type="submit" class="register-btn">
+            Create Account →
+        </button>
+    </form>
 
-                <input
-                    type="text"
-                    name="username"
-                    placeholder="Choose a username"
-                    autocomplete="username"
-                    required
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Email Address
-                </label>
-
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Enter your email"
-                    autocomplete="email"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Password
-                </label>
-
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Create a password"
-                    autocomplete="new-password"
-                    required
-                >
-
-                <div class="password-note">
-                    Use a password you can remember securely.
-                </div>
-
-            </div>
-
-
-            <button
-                type="submit"
-                class="register-btn"
-            >
-                Create Account →
-            </button>
-
-        </form>
-
-
-        <div class="login-text">
-
-            Already have an account?
-
-            <a href="{% url 'users:login' %}">
-                Login
-            </a>
-
-        </div>
-
+    <div class="login-link">
+        Already have an account?
+        <a href="/users/login/">Login</a>
     </div>
 
-</section>
+    <div class="footer">
+        Foodie made with ❤️
+    </div>
 
-{% endblock %}
+</div>
+
+</body>
+</html>

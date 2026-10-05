@@ -1,164 +1,31 @@
-from decimal import Decimal
-
-from django.shortcuts import redirect, render
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 from .models import Order
 
 
-def get_cart_total(cart):
-    total = Decimal("0")
-
-    for item in cart.values():
-        price = Decimal(str(item.get("price", "0")))
-        quantity = int(item.get("quantity", 1))
-
-        total += price * quantity
-
-    return total
-
-
-def checkout(request):
-
-    cart = request.session.get("foodie_cart", {})
-
-    if not cart:
-        return redirect("cart:view")
-
-    total = get_cart_total(cart)
-
-    if request.method == "POST":
-
-        request.session["checkout_name"] = request.POST.get(
-            "name",
-            ""
-        )
-
-        request.session["checkout_phone"] = request.POST.get(
-            "phone",
-            ""
-        )
-
-        request.session["checkout_address"] = request.POST.get(
-            "address",
-            ""
-        )
-
-        return redirect("orders:payment")
+@login_required(login_url="/users/login/")
+def my_orders(request):
+    orders = Order.objects.filter(
+        user=request.user
+    ).order_by("-created_at")
 
     return render(
         request,
-        "checkout.html",
+        "my_orders.html",
         {
-            "total": total
+            "orders": orders
         }
     )
 
 
-def payment(request):
-
-    cart = request.session.get("foodie_cart", {})
-
-    if not cart:
-        return redirect("cart:view")
-
-    total = get_cart_total(cart)
-
-    if request.method == "POST":
-
-        payment_method = request.POST.get(
-            "payment_method",
-            "COD"
-        )
-
-        order = Order.objects.create(
-
-            user=(
-                request.user
-                if request.user.is_authenticated
-                else None
-            ),
-
-            customer_name=request.session.get(
-                "checkout_name",
-                "Customer"
-            ),
-
-            phone=request.session.get(
-                "checkout_phone",
-                ""
-            ),
-
-            address=request.session.get(
-                "checkout_address",
-                ""
-            ),
-
-            payment_method=payment_method,
-
-            total_amount=total,
-        )
-
-        request.session["last_order_id"] = order.id
-
-        request.session["foodie_cart"] = {}
-
-        request.session.modified = True
-
-        return redirect("orders:success")
-
-    return render(
-        request,
-        "payment.html",
-        {
-            "total": total
-        }
+@login_required(login_url="/users/login/")
+def invoice(request, order_id):
+    order = get_object_or_404(
+        Order,
+        id=order_id,
+        user=request.user
     )
-
-
-def success(request):
-
-    order_id = request.session.get(
-        "last_order_id"
-    )
-
-    order = None
-
-    if order_id:
-
-        try:
-            order = Order.objects.get(
-                id=order_id
-            )
-
-        except Order.DoesNotExist:
-            order = None
-
-    return render(
-        request,
-        "success.html",
-        {
-            "order": order
-        }
-    )
-
-
-def invoice(request):
-
-    order_id = request.session.get(
-        "last_order_id"
-    )
-
-    order = None
-
-    if order_id:
-
-        try:
-            order = Order.objects.get(
-                id=order_id
-            )
-
-        except Order.DoesNotExist:
-            order = None
 
     return render(
         request,
@@ -169,22 +36,13 @@ def invoice(request):
     )
 
 
-def my_orders(request):
+def checkout(request):
+    return render(request, "checkout.html")
 
-    if request.user.is_authenticated:
 
-        orders = Order.objects.filter(
-            user=request.user
-        ).order_by("-created_at")
+def payment(request):
+    return render(request, "payment.html")
 
-    else:
 
-        orders = []
-
-    return render(
-        request,
-        "my_orders.html",
-        {
-            "orders": orders
-        }
-    )
+def success(request):
+    return render(request, "order_success.html")
