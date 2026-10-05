@@ -1,249 +1,506 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Hot Food Offers</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{
-    margin:0;
-    font-family: Arial;
-    background: #f4f6fb;
-}
+    <title>Offers & Coupons | Foodie</title>
 
-/* NEW COOL NAVBAR */
-.navbar{
-    background: linear-gradient(90deg,#6a11cb,#2575fc);
-    padding:18px;
-    text-align:center;
-    color:white;
-    font-size:24px;
-    font-weight:bold;
-    letter-spacing:1px;
-}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
 
-/* HERO */
-.hero{
-    text-align:center;
-    padding:25px;
-}
+        body {
+            background: #fff8f3;
+            color: #333;
+        }
 
-.hero h2{
-    margin:0;
-    font-size:30px;
-    color:#222;
-}
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #ff512f, #f09819);
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+        }
 
-.hero p{
-    color:#666;
-}
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
 
-/* GRID */
-.container{
-    display:grid;
-    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
-    padding:20px;
-}
+        .nav {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
 
-/* CARD */
-.card{
-    position:relative;
-    border-radius:16px;
-    overflow:hidden;
-    background:white;
-    box-shadow:0 8px 20px rgba(0,0,0,0.08);
-    transition:0.3s;
-}
+        .nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+        }
 
-.card:hover{
-    transform: translateY(-10px);
-    box-shadow:0 15px 30px rgba(0,0,0,0.15);
-}
+        .nav a:hover {
+            opacity: 0.8;
+        }
 
-.card img{
-    width:100%;
-    height:160px;
-    object-fit:cover;
-}
+        /* HERO */
+        .hero {
+            text-align: center;
+            padding: 55px 20px 35px;
+        }
 
-/* BADGE */
-.badge{
-    position:absolute;
-    top:10px;
-    left:10px;
-    background: linear-gradient(90deg,#ff416c,#ff4b2b);
-    color:white;
-    padding:5px 10px;
-    font-size:12px;
-    border-radius:20px;
-}
+        .hero .gift {
+            font-size: 55px;
+            margin-bottom: 10px;
+        }
 
-/* CONTENT */
-.content{
-    padding:12px;
-}
+        .hero h1 {
+            font-size: 38px;
+            color: #222;
+            margin-bottom: 12px;
+        }
 
-.title{
-    font-size:17px;
-    font-weight:bold;
-    color:#222;
-}
+        .hero h1 span {
+            color: #ff512f;
+        }
 
-.desc{
-    font-size:13px;
-    color:#666;
-    margin:5px 0;
-}
+        .hero p {
+            color: #777;
+            font-size: 17px;
+        }
 
-.price{
-    color:#28a745;
-    font-weight:bold;
-    margin-top:5px;
-}
+        /* OFFER GRID */
+        .offers-container {
+            width: 88%;
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            padding: 20px 0 60px;
+        }
 
-.btn{
-    display:inline-block;
-    margin-top:10px;
-    padding:8px 12px;
-    background: linear-gradient(90deg,#6a11cb,#2575fc);
-    color:white;
-    border-radius:8px;
-    text-decoration:none;
-    font-size:13px;
-}
+        .offer-card {
+            background: white;
+            border-radius: 22px;
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: 0.3s;
+            border: 1px solid #ffe1d3;
+        }
 
-/* hover glow */
-.btn:hover{
-    transform:scale(1.05);
-}
-</style>
+        .offer-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.14);
+        }
+
+        .offer-card::before {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: #fff0e8;
+            border-radius: 50%;
+            right: -35px;
+            top: -35px;
+        }
+
+        .offer-icon {
+            width: 65px;
+            height: 65px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #ff512f, #f09819);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .offer-card h2 {
+            font-size: 25px;
+            color: #222;
+            margin-bottom: 10px;
+        }
+
+        .offer-card p {
+            color: #777;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .coupon-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff6f0;
+            border: 1px dashed #ff7a45;
+            border-radius: 12px;
+            padding: 11px 13px;
+            margin-bottom: 18px;
+        }
+
+        .coupon-code {
+            font-weight: bold;
+            color: #e84922;
+            letter-spacing: 1px;
+            font-size: 15px;
+        }
+
+        .copy-btn {
+            border: none;
+            background: #ff512f;
+            color: white;
+            padding: 8px 13px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .copy-btn:hover {
+            background: #e74324;
+        }
+
+        .order-btn {
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            background: linear-gradient(135deg, #ff512f, #f09819);
+            color: white;
+            padding: 13px;
+            border-radius: 12px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .order-btn:hover {
+            transform: scale(1.02);
+        }
+
+        /* TERMS */
+        .terms {
+            text-align: center;
+            padding: 5px 20px 55px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #211b18;
+            color: #ddd;
+            padding: 45px 7% 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 35px;
+        }
+
+        footer h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        footer p {
+            color: #aaa;
+            line-height: 1.7;
+        }
+
+        footer a {
+            display: block;
+            color: #aaa;
+            text-decoration: none;
+            margin: 9px 0;
+        }
+
+        footer a:hover {
+            color: #ff8a65;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #3b3430;
+            margin-top: 30px;
+            padding-top: 18px;
+            text-align: center;
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .offers-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                padding: 15px 20px;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .offers-container {
+                grid-template-columns: 1fr;
+                width: 92%;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="navbar">🔥 Hot Food Offers</div>
+<!-- HEADER -->
+<header class="header">
 
-<div class="hero">
-    <h2>Today’s Mega Food Deals 😍</h2>
-    <p>10 Limited Time Offers – Grab Fast!</p>
+    <div class="logo">
+        🍴 Foodie
+    </div>
+
+    <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/restaurants/">Restaurants</a>
+        <a href="/menu/">Menu</a>
+        <a href="/offers/">Offers</a>
+        <a href="/users/login/">Login</a>
+    </nav>
+
+</header>
+
+
+<!-- HERO -->
+<section class="hero">
+
+    <div class="gift">🎁</div>
+
+    <h1>
+        Offers & <span>Coupons</span>
+    </h1>
+
+    <p>
+        Delicious food tastes even better with a great deal.
+    </p>
+
+</section>
+
+
+<!-- OFFERS -->
+<section class="offers-container">
+
+    <!-- OFFER 1 -->
+    <div class="offer-card">
+
+        <div class="offer-icon">
+            💰
+        </div>
+
+        <h2>FLAT ₹100 OFF</h2>
+
+        <p>
+            Get flat ₹100 OFF on selected food orders.
+            Enjoy your favourite meals for less!
+        </p>
+
+        <div class="coupon-box">
+
+            <span class="coupon-code">
+                FOOD100
+            </span>
+
+            <button class="copy-btn"
+                    onclick="copyCoupon('FOOD100', this)">
+                COPY
+            </button>
+
+        </div>
+
+        <a href="/menu/" class="order-btn">
+            Order Now →
+        </a>
+
+    </div>
+
+
+    <!-- OFFER 2 -->
+    <div class="offer-card">
+
+        <div class="offer-icon">
+            🍔
+        </div>
+
+        <h2>20% OFF</h2>
+
+        <p>
+            Get 20% OFF on selected burger combos.
+            Perfect for your burger cravings!
+        </p>
+
+        <div class="coupon-box">
+
+            <span class="coupon-code">
+                BURGER20
+            </span>
+
+            <button class="copy-btn"
+                    onclick="copyCoupon('BURGER20', this)">
+                COPY
+            </button>
+
+        </div>
+
+        <a href="/menu/" class="order-btn">
+            Order Now →
+        </a>
+
+    </div>
+
+
+    <!-- OFFER 3 -->
+    <div class="offer-card">
+
+        <div class="offer-icon">
+            🚴
+        </div>
+
+        <h2>FREE DELIVERY</h2>
+
+        <p>
+            Enjoy FREE DELIVERY when your order
+            value is above ₹499.
+        </p>
+
+        <div class="coupon-box">
+
+            <span class="coupon-code">
+                FREEDEL
+            </span>
+
+            <button class="copy-btn"
+                    onclick="copyCoupon('FREEDEL', this)">
+                COPY
+            </button>
+
+        </div>
+
+        <a href="/menu/" class="order-btn">
+            Order Now →
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- TERMS -->
+<div class="terms">
+    💡 Offers are subject to availability and applicable conditions.
+    Coupon functionality can be connected to checkout later.
 </div>
 
-<div class="container">
 
-    <!-- 10 FOOD CARDS -->
+<!-- FOOTER -->
+<footer>
 
-    <div class="card">
-        <div class="badge">50% OFF</div>
-        <img src="https://source.unsplash.com/400x300/?pizza" alt="">
-        <div class="content">
-            <div class="title">Cheese Pizza</div>
-            <div class="desc">Extra cheese & soft crust</div>
-            <div class="price">₹149</div>
-            <a href="#" class="btn">Order Now</a>
+    <div class="footer-content">
+
+        <div>
+            <h3>Foodie 🍴</h3>
+
+            <p>
+                Delicious food, beautiful moments and
+                unforgettable flavours — all in one place.
+            </p>
         </div>
+
+
+        <div>
+            <h3>Explore</h3>
+
+            <a href="/">Home</a>
+            <a href="/restaurants/">Restaurants</a>
+            <a href="/menu/">Menu</a>
+            <a href="/offers/">Offers</a>
+        </div>
+
+
+        <div>
+            <h3>Account</h3>
+
+            <a href="/users/login/">Login</a>
+            <a href="/users/register/">Register</a>
+            <a href="/orders/my-orders/">My Orders</a>
+            <a href="/cart/">My Cart</a>
+        </div>
+
+
+        <div>
+            <h3>Contact</h3>
+
+            <p>📍 Tamil Nadu</p>
+            <p>📞 +91 98765 43210</p>
+            <p>✉️ foodie@example.com</p>
+        </div>
+
     </div>
 
-    <div class="card">
-        <div class="badge">HOT</div>
-        <img src="https://source.unsplash.com/400x300/?burger" alt="">
-        <div class="content">
-            <div class="title">Chicken Burger</div>
-            <div class="desc">Juicy grilled burger</div>
-            <div class="price">₹99</div>
-            <a href="#" class="btn">Order Now</a>
-        </div>
+
+    <div class="footer-bottom">
+        Foodie made with ❤️ · Fresh food, happy moments
     </div>
 
-    <div class="card">
-        <div class="badge">40% OFF</div>
-        <img src="https://source.unsplash.com/400x300/?biryani" alt="">
-        <div class="content">
-            <div class="title">Chicken Biryani</div>
-            <div class="desc">Spicy & flavorful combo</div>
-            <div class="price">₹199</div>
-            <a href="#" class="btn">Order Now</a>
-        </div>
-    </div>
+</footer>
 
-    <div class="card">
-        <div class="badge">NEW</div>
-        <img src="https://source.unsplash.com/400x300/?noodles" alt="">
-        <div class="content">
-            <div class="title">Veg Noodles</div>
-            <div class="desc">Street style spicy noodles</div>
-            <div class="price">₹89</div>
-            <a href="#" class="btn">Order Now</a>
-        </div>
-    </div>
 
-    <div class="card">
-        <div class="badge">30% OFF</div>
-        <img src="https://source.unsplash.com/400x300/?fried-chicken" alt="">
-        <div class="content">
-            <div class="title">Fried Chicken</div>
-            <div class="desc">Crispy golden chicken</div>
-            <div class="price">₹159</div>
-            <a href="#" class="btn">Order Now</a>
-        </div>
-    </div>
+<!-- COPY COUPON -->
+<script>
 
-    <div class="card">
-        <div class="badge">BEST</div>
-        <img src="https://source.unsplash.com/400x300/?sandwich" alt="">
-        <div class="content">
-            <div class="title">Veg Sandwich</div>
-            <div class="desc">Cheese & veggies combo</div>
-            <div class="price">₹69</div>
-            <a href="#" class="btn">Order Now</a>
-        </div>
-    </div>
+function copyCoupon(code, button) {
 
-    <div class="card">
-        <div class="badge">HOT</div>
-        <img src="https://source.unsplash.com/400x300/?tacos" alt="">
-        <div class="content">
-            <div class="title">Tacos</div>
-            <div class="desc">Mexican spicy taste</div>
-            <div class="price">₹129</div>
-            <a href="#" class="btn">Order Now</a>
-        </div>
-    </div>
+    navigator.clipboard.writeText(code);
 
-    <div class="card">
-        <div class="badge">COMBO</div>
-        <img src="https://source.unsplash.com/400x300/?shawarma" alt="">
-        <div class="content">
-            <div class="title">Chicken Shawarma</div>
-            <div class="desc">Roll + sauces combo</div>
-            <div class="price">₹110</div>
-            <a href="#" class="btn">Order Now</a>
-        </div>
-    </div>
+    const oldText = button.innerText;
 
-    <div class="card">
-        <div class="badge">LIMITED</div>
-        <img src="https://source.unsplash.com/400x300/?pasta" alt="">
-        <div class="content">
-            <div class="title">White Sauce Pasta</div>
-            <div class="desc">Creamy Italian taste</div>
-            <div class="price">₹139</div>
-            <a href="#" class="btn">Order Now</a>
-        </div>
-    </div>
+    button.innerText = "COPIED ✓";
 
-    <div class="card">
-        <div class="badge">SPECIAL</div>
-        <img src="https://source.unsplash.com/400x300/?ice-cream" alt="">
-        <div class="content">
-            <div class="title">Ice Cream</div>
-            <div class="desc">Sweet dessert combo</div>
-            <div class="price">₹59</div>
-            <a href="#" class="btn">Order Now</a>
-        </div>
-    </div>
+    setTimeout(function() {
+        button.innerText = oldText;
+    }, 1500);
+}
 
-</div>
+</script>
 
 </body>
-</html> 
+</html>

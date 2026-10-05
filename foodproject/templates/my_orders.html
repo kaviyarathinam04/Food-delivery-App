@@ -1,0 +1,402 @@
+{% extends "base.html" %}
+
+{% block title %}Foodie | My Orders{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+    .orders-header {
+        padding: 55px 0 35px;
+        background: linear-gradient(
+            135deg,
+            #fff1e4,
+            #fffaf5
+        );
+    }
+
+    .orders-header h1 {
+        font-family: "DM Serif Display", serif;
+        font-size: 52px;
+        color: var(--brown);
+        margin-bottom: 10px;
+    }
+
+    .orders-header p {
+        color: var(--muted);
+    }
+
+    .orders-section {
+        padding: 45px 0 80px;
+        min-height: 60vh;
+    }
+
+    .orders-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 22px;
+    }
+
+    .order-card {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 25px;
+        transition: 0.25s ease;
+    }
+
+    .order-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 35px rgba(70, 35, 10, 0.08);
+    }
+
+    .order-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .order-number {
+        color: var(--brown);
+        font-weight: 800;
+        font-size: 17px;
+    }
+
+    .order-date {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 7px 12px;
+        border-radius: 20px;
+        background: #fff0e5;
+        color: var(--orange);
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+    .order-details {
+        padding: 18px 0;
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 9px 0;
+        font-size: 13px;
+    }
+
+    .detail-row span:first-child {
+        color: var(--muted);
+    }
+
+    .detail-row span:last-child {
+        color: var(--brown);
+        font-weight: 700;
+        text-align: right;
+    }
+
+    .order-total {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 17px;
+        border-top: 1px solid var(--border);
+    }
+
+    .order-total span:first-child {
+        color: var(--muted);
+        font-size: 13px;
+    }
+
+    .order-total span:last-child {
+        color: var(--brown);
+        font-size: 21px;
+        font-weight: 800;
+    }
+
+    .invoice-link {
+        display: inline-block;
+        margin-top: 18px;
+        padding: 11px 20px;
+        border-radius: 25px;
+        background: var(--orange);
+        color: white;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 800;
+        transition: 0.2s;
+    }
+
+    .invoice-link:hover {
+        background: var(--brown);
+        transform: translateY(-2px);
+    }
+
+    .empty-orders {
+        max-width: 600px;
+        margin: 30px auto;
+        text-align: center;
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 55px 25px;
+    }
+
+    .empty-icon {
+        font-size: 55px;
+        margin-bottom: 18px;
+    }
+
+    .empty-orders h2 {
+        font-family: "DM Serif Display", serif;
+        color: var(--brown);
+        font-size: 34px;
+        margin-bottom: 10px;
+    }
+
+    .empty-orders p {
+        color: var(--muted);
+        margin-bottom: 25px;
+    }
+
+    .menu-btn {
+        display: inline-block;
+        padding: 13px 25px;
+        border-radius: 30px;
+        background: var(--orange);
+        color: white;
+        text-decoration: none;
+        font-weight: 800;
+        font-size: 13px;
+    }
+
+    .login-note {
+        color: var(--muted);
+        font-size: 13px;
+        margin-bottom: 22px;
+    }
+
+    @media (max-width: 800px) {
+
+        .orders-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .orders-header h1 {
+            font-size: 43px;
+        }
+
+    }
+
+    @media (max-width: 500px) {
+
+        .order-card {
+            padding: 20px;
+        }
+
+        .order-top {
+            align-items: flex-start;
+        }
+
+        .status {
+            font-size: 10px;
+        }
+
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<section class="orders-header">
+
+    <div class="container">
+
+        <h1>
+            My Orders 📦
+        </h1>
+
+        <p>
+            Track and view your Foodie order history.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="orders-section">
+
+    <div class="container">
+
+        {% if request.user.is_authenticated %}
+
+            {% if orders %}
+
+                <div class="orders-grid">
+
+                    {% for order in orders %}
+
+                    <div class="order-card">
+
+                        <div class="order-top">
+
+                            <div>
+
+                                <div class="order-number">
+                                    Order #{{ order.id }}
+                                </div>
+
+                                <div class="order-date">
+                                    {{ order.created_at|date:"d M Y, h:i A" }}
+                                </div>
+
+                            </div>
+
+                            <span class="status">
+                                {{ order.get_status_display }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="order-details">
+
+                            <div class="detail-row">
+
+                                <span>
+                                    Customer
+                                </span>
+
+                                <span>
+                                    {{ order.customer_name }}
+                                </span>
+
+                            </div>
+
+
+                            <div class="detail-row">
+
+                                <span>
+                                    Payment
+                                </span>
+
+                                <span>
+                                    {{ order.get_payment_method_display }}
+                                </span>
+
+                            </div>
+
+
+                            <div class="detail-row">
+
+                                <span>
+                                    Phone
+                                </span>
+
+                                <span>
+                                    {{ order.phone }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="order-total">
+
+                            <span>
+                                Order Total
+                            </span>
+
+                            <span>
+                                ₹{{ order.total_amount }}
+                            </span>
+
+                        </div>
+
+
+                        <a
+                            href="{% url 'orders:invoice' %}"
+                            class="invoice-link"
+                        >
+                            🧾 View Invoice
+                        </a>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="empty-orders">
+
+                    <div class="empty-icon">
+                        🍽️
+                    </div>
+
+                    <h2>
+                        No Orders Yet
+                    </h2>
+
+                    <p>
+                        You haven't placed any orders yet.
+                        Discover something delicious today!
+                    </p>
+
+                    <a
+                        href="{% url 'menu:list' %}"
+                        class="menu-btn"
+                    >
+                        Explore Menu →
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        {% else %}
+
+            <div class="empty-orders">
+
+                <div class="empty-icon">
+                    🔐
+                </div>
+
+                <h2>
+                    Login to View Orders
+                </h2>
+
+                <p class="login-note">
+                    Please login to see your Foodie order history.
+                </p>
+
+                <a
+                    href="{% url 'users:login' %}"
+                    class="menu-btn"
+                >
+                    Login →
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

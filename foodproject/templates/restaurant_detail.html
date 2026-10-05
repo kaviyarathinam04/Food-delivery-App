@@ -1,0 +1,381 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+.detail-page {
+    background: #fffaf3;
+    min-height: 100vh;
+    padding-bottom: 70px;
+}
+
+.restaurant-hero {
+    position: relative;
+    min-height: 430px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: end;
+    overflow: hidden;
+}
+
+.restaurant-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(35, 18, 10, .92),
+        rgba(35, 18, 10, .35),
+        rgba(35, 18, 10, .05)
+    );
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    width: min(1150px, 92%);
+    margin: auto;
+    padding: 60px 0 45px;
+    color: white;
+}
+
+.hero-content .tag {
+    display: inline-block;
+    background: #f28c28;
+    padding: 8px 15px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.hero-content h1 {
+    font-size: clamp(38px, 6vw, 68px);
+    margin: 0 0 12px;
+    font-weight: 800;
+}
+
+.hero-content p {
+    max-width: 650px;
+    line-height: 1.7;
+    font-size: 16px;
+    color: #f9eee2;
+}
+
+.restaurant-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.info-box {
+    background: rgba(255,255,255,.13);
+    border: 1px solid rgba(255,255,255,.2);
+    backdrop-filter: blur(10px);
+    padding: 11px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+}
+
+.menu-section {
+    width: min(1150px, 92%);
+    margin: 55px auto 0;
+}
+
+.menu-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.menu-heading h2 {
+    font-size: 36px;
+    margin: 0;
+    color: #3a2115;
+}
+
+.menu-heading p {
+    color: #80695c;
+    margin: 7px 0 0;
+}
+
+.back-btn {
+    text-decoration: none;
+    color: #8c4517;
+    font-weight: 700;
+}
+
+.food-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.food-card {
+    background: white;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 10px 35px rgba(80, 40, 10, .10);
+    border: 1px solid #f2dfcd;
+    transition: .3s;
+}
+
+.food-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 18px 45px rgba(80, 40, 10, .16);
+}
+
+.food-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.food-content {
+    padding: 20px;
+}
+
+.food-content h3 {
+    margin: 0 0 8px;
+    font-size: 21px;
+    color: #342015;
+}
+
+.food-content p {
+    color: #8a7467;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0 0 17px;
+}
+
+.food-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price {
+    font-size: 21px;
+    font-weight: 800;
+    color: #d85d17;
+}
+
+.add-btn {
+    text-decoration: none;
+    background: #e86f20;
+    color: white;
+    padding: 10px 17px;
+    border-radius: 12px;
+    font-weight: 700;
+    transition: .25s;
+}
+
+.add-btn:hover {
+    background: #b9470d;
+    transform: scale(1.03);
+}
+
+.explore-box {
+    margin-top: 45px;
+    padding: 30px;
+    border-radius: 22px;
+    background: #3b2115;
+    color: white;
+    text-align: center;
+}
+
+.explore-box h3 {
+    margin: 0 0 10px;
+    font-size: 27px;
+}
+
+.explore-box p {
+    color: #ead8ca;
+    margin-bottom: 20px;
+}
+
+.explore-menu {
+    display: inline-block;
+    background: #f28c28;
+    color: white;
+    padding: 13px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+@media (max-width: 900px) {
+    .food-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .restaurant-hero {
+        min-height: 480px;
+    }
+
+    .food-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-heading {
+        align-items: start;
+        flex-direction: column;
+    }
+
+    .food-image {
+        height: 230px;
+    }
+}
+
+</style>
+
+
+<div class="detail-page">
+
+    <section
+        class="restaurant-hero"
+        style="background-image: url('{{ restaurant.image }}');"
+    >
+
+        <div class="hero-content">
+
+            <span class="tag">
+                {{ restaurant.category }}
+            </span>
+
+            <h1>
+                {{ restaurant.name }}
+            </h1>
+
+            <p>
+                {{ restaurant.description }}
+            </p>
+
+            <div class="restaurant-info">
+
+                <div class="info-box">
+                    ⭐ {{ restaurant.rating }}
+                </div>
+
+                <div class="info-box">
+                    ⏱ {{ restaurant.time }}
+                </div>
+
+                <div class="info-box">
+                    💰 {{ restaurant.price }}
+                </div>
+
+                <div class="info-box">
+                    📍 {{ restaurant.location }}
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="menu-section">
+
+        <div class="menu-heading">
+
+            <div>
+                <h2>Our Menu 🍽️</h2>
+
+                <p>
+                    Freshly prepared favourites from {{ restaurant.name }}
+                </p>
+            </div>
+
+            <a href="/restaurants/" class="back-btn">
+                ← Back to Restaurants
+            </a>
+
+        </div>
+
+
+        <div class="food-grid">
+
+            {% for food in restaurant.foods %}
+
+            <div class="food-card">
+
+                <img
+                    src="{{ food.image }}"
+                    alt="{{ food.name }}"
+                    class="food-image"
+                >
+
+                <div class="food-content">
+
+                    <h3>
+                        {{ food.name }}
+                    </h3>
+
+                    <p>
+                        Delicious and freshly prepared.
+                        Perfect for your next meal.
+                    </p>
+
+                    <div class="food-bottom">
+
+                        <span class="price">
+                            ₹{{ food.price }}
+                        </span>
+
+                        <a
+                            href="/cart/add/{{ food.id }}/"
+                            class="add-btn"
+                        >
+                            + Add
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <p>
+                No food items available.
+            </p>
+
+            {% endfor %}
+
+        </div>
+
+
+        <div class="explore-box">
+
+            <h3>
+                Hungry already? 😋
+            </h3>
+
+            <p>
+                Add your favourite food items to cart and continue ordering.
+            </p>
+
+            <a
+                href="/cart/"
+                class="explore-menu"
+            >
+                View Cart 🛒
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

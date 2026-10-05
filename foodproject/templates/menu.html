@@ -1,174 +1,606 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Menu</title>
+{% extends "base.html" %}
 
-    <style>
+{% block content %}
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial;
-        }
+<style>
 
-        body{
-            background:#f5f5f5;
-        }
+.menu-page {
+    background: #fffaf4;
+    min-height: 100vh;
+    padding-bottom: 80px;
+}
 
-        /* Navbar */
 
-        .navbar{
-            background:linear-gradient(to right,#ff9800,#ff5722);
-            padding:20px;
-            color:white;
-            text-align:center;
-            font-size:32px;
-            font-weight:bold;
-            box-shadow:0px 3px 10px rgba(0,0,0,0.2);
-        }
+/* ================= HERO ================= */
 
-        /* Title */
+.menu-hero {
+    position: relative;
+    min-height: 430px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
 
-        .title{
-            text-align:center;
-            margin:40px 0;
-            font-size:45px;
-            color:#333;
-            text-transform:capitalize;
-        }
+    background:
+        linear-gradient(
+            rgba(45, 20, 8, 0.72),
+            rgba(45, 20, 8, 0.70)
+        ),
+        url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600")
+        center/cover;
+}
 
-        /* Container */
+.menu-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 850px;
+    padding: 30px 20px;
+}
 
-        .container{
-            display:flex;
-            flex-wrap:wrap;
-            justify-content:center;
-            gap:30px;
-            padding:20px 40px 60px;
-        }
+.menu-badge {
+    display: inline-block;
+    padding: 9px 18px;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #ffd9a0;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    backdrop-filter: blur(8px);
+}
 
-        /* Card */
+.menu-hero h1 {
+    color: white;
+    font-size: 54px;
+    line-height: 1.1;
+    margin: 0 0 18px;
+    font-weight: 900;
+}
 
-        .card{
-            width:300px;
-            background:white;
-            border-radius:20px;
-            overflow:hidden;
-            box-shadow:0px 5px 20px rgba(0,0,0,0.15);
-            transition:0.4s;
-        }
+.menu-hero h1 span {
+    color: #ff9d32;
+}
 
-        .card:hover{
-            transform:translateY(-10px) scale(1.03);
-        }
+.menu-hero p {
+    color: #f5e9dc;
+    font-size: 18px;
+    line-height: 1.7;
+    max-width: 650px;
+    margin: auto;
+}
 
-        .card img{
-            width:100%;
-            height:220px;
-            object-fit:cover;
-        }
 
-        .card-body{
-            padding:18px;
-        }
+/* ================= SEARCH ================= */
 
-        .card-body h2{
-            margin-bottom:10px;
-            color:#222;
-        }
+.menu-controls {
+    max-width: 1200px;
+    margin: -35px auto 45px;
+    position: relative;
+    z-index: 10;
+    padding: 0 20px;
+}
 
-        .description{
-            color:#666;
-            margin-bottom:10px;
-        }
+.search-box {
+    background: white;
+    border-radius: 22px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 15px 40px rgba(70, 35, 10, 0.15);
+}
 
-        .price{
-            color:#ff5722;
-            font-size:22px;
-            font-weight:bold;
-            margin:10px 0;
-        }
+.search-box span {
+    font-size: 22px;
+}
 
-        .rating{
-            color:green;
-            font-weight:bold;
-            margin-bottom:10px;
-        }
+.search-box input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: #4a2815;
+    background: transparent;
+}
 
-        .btn{
-            display:inline-block;
-            margin-top:10px;
-            background:#28a745;
-            color:white;
-            padding:12px 22px;
-            border-radius:30px;
-            text-decoration:none;
-            transition:0.3s;
-        }
 
-        .btn:hover{
-            background:#218838;
-        }
+/* ================= CATEGORY ================= */
 
-        /* Footer */
+.categories {
+    max-width: 1200px;
+    margin: 0 auto 35px;
+    padding: 0 20px;
 
-        .footer{
-            background:#111;
-            color:white;
-            text-align:center;
-            padding:20px;
-            margin-top:40px;
-        }
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
 
-    </style>
+.category-btn {
+    border: 1px solid #e7c9a8;
+    background: white;
+    color: #70401e;
 
-</head>
+    padding: 11px 20px;
+    border-radius: 30px;
 
-<body>
+    cursor: pointer;
+    font-weight: 700;
 
-    <!-- Navbar -->
+    transition: 0.25s;
+}
 
-    <div class="navbar">
-        🍔 FoodExpress Menu
+.category-btn:hover,
+.category-btn.active {
+    background: #c75b08;
+    color: white;
+    border-color: #c75b08;
+    transform: translateY(-2px);
+}
+
+
+/* ================= SECTION TITLE ================= */
+
+.menu-heading {
+    max-width: 1200px;
+    margin: 0 auto 30px;
+    padding: 0 20px;
+}
+
+.menu-heading h2 {
+    color: #49250f;
+    font-size: 32px;
+    margin: 0 0 8px;
+}
+
+.menu-heading p {
+    color: #8a7666;
+    margin: 0;
+}
+
+
+/* ================= FOOD GRID ================= */
+
+.food-grid {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+
+/* ================= FOOD CARD ================= */
+
+.food-card {
+    background: white;
+    border-radius: 22px;
+    overflow: hidden;
+
+    border: 1px solid #f0dfcc;
+
+    box-shadow: 0 10px 30px rgba(70, 35, 10, 0.08);
+
+    transition: 0.3s;
+
+    position: relative;
+}
+
+.food-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 45px rgba(70, 35, 10, 0.15);
+}
+
+
+/* IMAGE */
+
+.food-image-wrap {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+}
+
+.food-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.food-card:hover .food-image {
+    transform: scale(1.08);
+}
+
+
+/* FAVORITE */
+
+.favorite-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+
+    width: 42px;
+    height: 42px;
+
+    border-radius: 50%;
+    border: none;
+
+    background: rgba(255,255,255,0.92);
+
+    font-size: 21px;
+    cursor: pointer;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.favorite-btn:hover {
+    transform: scale(1.1);
+}
+
+
+/* CATEGORY BADGE */
+
+.food-category {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+
+    background: rgba(45,20,8,0.82);
+    color: white;
+
+    padding: 7px 12px;
+    border-radius: 20px;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+/* CARD CONTENT */
+
+.food-content {
+    padding: 20px;
+}
+
+.food-content h3 {
+    margin: 0 0 7px;
+
+    color: #43230f;
+    font-size: 20px;
+}
+
+.restaurant-name {
+    color: #8c7562;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.food-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 16px;
+}
+
+.rating {
+    background: #fff4d8;
+    color: #8b5a00;
+
+    padding: 6px 9px;
+    border-radius: 9px;
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.price {
+    color: #c45705;
+    font-size: 21px;
+    font-weight: 900;
+}
+
+
+/* ADD BUTTON */
+
+.add-cart-btn {
+    display: block;
+    width: 100%;
+
+    text-align: center;
+
+    background: linear-gradient(
+        135deg,
+        #ff8a00,
+        #c65305
+    );
+
+    color: white;
+
+    text-decoration: none;
+
+    padding: 13px;
+
+    border-radius: 13px;
+
+    font-weight: 800;
+
+    transition: 0.25s;
+}
+
+.add-cart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(198,83,5,0.25);
+}
+
+
+/* ================= EMPTY ================= */
+
+.no-food {
+    max-width: 700px;
+    margin: 50px auto;
+    text-align: center;
+    padding: 60px 25px;
+
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(70,35,10,0.08);
+}
+
+.no-food-icon {
+    font-size: 55px;
+    margin-bottom: 15px;
+}
+
+.no-food h3 {
+    color: #4a2815;
+    margin-bottom: 10px;
+}
+
+.no-food p {
+    color: #888;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 900px) {
+
+    .food-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .menu-hero h1 {
+        font-size: 42px;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .food-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-hero {
+        min-height: 390px;
+    }
+
+    .menu-hero h1 {
+        font-size: 35px;
+    }
+
+    .menu-hero p {
+        font-size: 15px;
+    }
+
+    .menu-heading h2 {
+        font-size: 26px;
+    }
+
+    .food-image-wrap {
+        height: 230px;
+    }
+}
+
+</style>
+
+
+<div class="menu-page">
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="menu-hero">
+
+        <div class="menu-hero-content">
+
+            <div class="menu-badge">
+                🍴 FOODIE SPECIAL MENU
+            </div>
+
+            <h1>
+                Explore Our <span>Menu</span>
+            </h1>
+
+            <p>
+                Discover delicious dishes from your favourite restaurants.
+                Choose your favourite food, add it to your cart,
+                and enjoy a beautiful Foodie experience. ❤️
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= SEARCH ================= -->
+
+    <div class="menu-controls">
+
+        <div class="search-box">
+
+            <span>🔍</span>
+
+            <input
+                type="text"
+                id="foodSearch"
+                placeholder="Search for pizza, biryani, burger, noodles..."
+                onkeyup="searchFood()"
+            >
+
+        </div>
+
     </div>
 
-    <!-- Title -->
 
-    <h1 class="title">
-        {{ restaurant_name }} Menu
-    </h1>
 
-    <!-- Menu Container -->
+    <!-- ================= CATEGORIES ================= -->
 
-    <div class="container">
+    <div class="categories">
+
+        <button
+            class="category-btn active"
+            onclick="filterFood('all', this)"
+        >
+            🍽️ All
+        </button>
+
+        <button
+            class="category-btn"
+            onclick="filterFood('South Indian', this)"
+        >
+            🥘 South Indian
+        </button>
+
+        <button
+            class="category-btn"
+            onclick="filterFood('Pizza', this)"
+        >
+            🍕 Pizza
+        </button>
+
+        <button
+            class="category-btn"
+            onclick="filterFood('Biryani', this)"
+        >
+            🍛 Biryani
+        </button>
+
+        <button
+            class="category-btn"
+            onclick="filterFood('Burger', this)"
+        >
+            🍔 Burger
+        </button>
+
+        <button
+            class="category-btn"
+            onclick="filterFood('Chinese', this)"
+        >
+            🍜 Chinese
+        </button>
+
+        <button
+            class="category-btn"
+            onclick="filterFood('Shawarma', this)"
+        >
+            🌯 Shawarma
+        </button>
+
+    </div>
+
+
+
+    <!-- ================= TITLE ================= -->
+
+    <div class="menu-heading">
+
+        <h2>
+            Delicious Food For You 😋
+        </h2>
+
+        <p>
+            Fresh flavours from our Foodie restaurants
+        </p>
+
+    </div>
+
+
+
+    <!-- ================= FOOD GRID ================= -->
+
+    {% if foods %}
+
+    <div class="food-grid" id="foodGrid">
 
         {% for food in foods %}
 
-        <!-- Food Card -->
+        <div
+            class="food-card"
+            data-category="{{ food.category }}"
+            data-name="{{ food.name|lower }}"
+        >
 
-        <div class="card">
+            <div class="food-image-wrap">
 
-            <img src="{{ food.image }}">
+                <img
+                    src="{{ food.image }}"
+                    alt="{{ food.name }}"
+                    class="food-image"
+                    loading="lazy"
+                >
 
-            <div class="card-body">
+                <button
+                    class="favorite-btn"
+                    onclick="toggleFavorite(this)"
+                    type="button"
+                >
+                    ♡
+                </button>
 
-                <h2>{{ food.name }}</h2>
+                <div class="food-category">
+                    {{ food.category }}
+                </div>
 
-                <p class="description">
-                    Delicious and freshly prepared food
-                </p>
+            </div>
 
-                <p class="price">
-                    {{ food.price }}
-                </p>
 
-                <p class="rating">
-                    ⭐ 4.7
-                </p>
+            <div class="food-content">
 
-                <a href="/cart/" class="btn">
-                    Add To Cart
+                <h3>
+                    {{ food.name }}
+                </h3>
+
+                <div class="restaurant-name">
+                    🏪 {{ food.restaurant }}
+                </div>
+
+
+                <div class="food-meta">
+
+                    <span class="rating">
+                        ⭐ {{ food.rating }}
+                    </span>
+
+                    <span class="price">
+                        ₹{{ food.price }}
+                    </span>
+
+                </div>
+
+
+                <a
+                    href="/cart/add/{{ food.id }}/"
+                    class="add-cart-btn"
+                >
+                    🛒 Add To Cart
                 </a>
 
             </div>
@@ -179,11 +611,159 @@
 
     </div>
 
-    <!-- Footer -->
 
-    <div class="footer">
-        © 2026 FoodExpress | All Rights Reserved
+    <div
+        id="noResults"
+        class="no-food"
+        style="display:none;"
+    >
+
+        <div class="no-food-icon">
+            🔎
+        </div>
+
+        <h3>
+            No food found
+        </h3>
+
+        <p>
+            Try searching for another delicious dish.
+        </p>
+
     </div>
 
-</body>
-</html>
+    {% else %}
+
+    <div class="no-food">
+
+        <div class="no-food-icon">
+            🍽️
+        </div>
+
+        <h3>
+            No food items available
+        </h3>
+
+        <p>
+            Delicious food will appear here soon.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+
+</div>
+
+
+<script>
+
+let selectedCategory = "all";
+
+
+function filterFood(category, button) {
+
+    selectedCategory = category;
+
+    document
+        .querySelectorAll(".category-btn")
+        .forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+    button.classList.add("active");
+
+    applyFilters();
+}
+
+
+function searchFood() {
+
+    applyFilters();
+}
+
+
+function applyFilters() {
+
+    const searchValue =
+        document
+        .getElementById("foodSearch")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const cards =
+        document.querySelectorAll(".food-card");
+
+    let visibleCount = 0;
+
+
+    cards.forEach(card => {
+
+        const category =
+            card.dataset.category;
+
+        const name =
+            card.dataset.name;
+
+
+        const categoryMatch =
+            selectedCategory === "all" ||
+            category === selectedCategory;
+
+
+        const searchMatch =
+            name.includes(searchValue);
+
+
+        if (categoryMatch && searchMatch) {
+
+            card.style.display = "";
+
+            visibleCount++;
+
+        } else {
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+
+    const noResults =
+        document.getElementById("noResults");
+
+
+    if (noResults) {
+
+        if (visibleCount === 0) {
+            noResults.style.display = "block";
+        } else {
+            noResults.style.display = "none";
+        }
+
+    }
+
+}
+
+
+function toggleFavorite(button) {
+
+    if (button.innerHTML.includes("♡")) {
+
+        button.innerHTML = "♥";
+        button.style.color = "#e63946";
+
+    } else {
+
+        button.innerHTML = "♡";
+        button.style.color = "";
+
+    }
+
+}
+
+</script>
+
+{% endblock %}

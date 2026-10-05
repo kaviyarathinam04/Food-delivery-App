@@ -1,441 +1,1011 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>FoodExpress</title>
+{% extends "base.html" %}
 
-    <style>
+{% block title %}Foodie | Taste The Moment{% endblock %}
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family: Arial, sans-serif;
+{% block extra_css %}
+
+<style>
+
+    /* ================================
+       HERO SECTION
+    ================================= */
+
+    .hero {
+        min-height: 720px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        background: #241914;
+    }
+
+    /* Background images */
+
+    .hero-slide {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transform: scale(1.05);
+        animation: foodSlide 24s infinite;
+    }
+
+    .hero-slide:nth-child(1) {
+        background-image:
+        url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1800&q=85");
+        animation-delay: 0s;
+    }
+
+    .hero-slide:nth-child(2) {
+        background-image:
+        url("https://images.unsplash.com/photo-1563379091339-03246963d96c?auto=format&fit=crop&w=1800&q=85");
+        animation-delay: 6s;
+    }
+
+    .hero-slide:nth-child(3) {
+        background-image:
+        url("https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1800&q=85");
+        animation-delay: 12s;
+    }
+
+    .hero-slide:nth-child(4) {
+        background-image:
+        url("https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=1800&q=85");
+        animation-delay: 18s;
+    }
+
+    @keyframes foodSlide {
+
+        0% {
+            opacity: 0;
+            transform: scale(1.05);
         }
 
-        body{
-            background:#f8f9fa;
-            overflow-x:hidden;
+        5% {
+            opacity: 1;
         }
 
-        /* Navbar */
-
-        .navbar{
-            width:100%;
-            padding:18px 60px;
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            position:fixed;
-            top:0;
-            z-index:1000;
-            background:rgba(0,0,0,0.5);
-            backdrop-filter:blur(8px);
+        23% {
+            opacity: 1;
+            transform: scale(1);
         }
 
-        .logo{
-            font-size:34px;
-            font-weight:bold;
-            color:#ffcc00;
+        28% {
+            opacity: 0;
         }
 
-        .nav-links a{
-            color:white;
-            text-decoration:none;
-            margin-left:25px;
-            font-size:18px;
-            transition:0.3s;
+        100% {
+            opacity: 0;
+        }
+    }
+
+
+    /* Dark premium overlay */
+
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+
+        background:
+        linear-gradient(
+            90deg,
+            rgba(30,20,15,0.94) 0%,
+            rgba(30,20,15,0.78) 35%,
+            rgba(30,20,15,0.35) 65%,
+            rgba(30,20,15,0.25) 100%
+        );
+
+        z-index: 2;
+    }
+
+
+    /* Hero content */
+
+    .hero-content {
+        position: relative;
+        z-index: 3;
+
+        width: 86%;
+        max-width: 1250px;
+        margin: auto;
+
+        color: white;
+        padding: 80px 0;
+    }
+
+
+    .small-label {
+        display: inline-block;
+
+        padding: 9px 18px;
+
+        border: 1px solid rgba(255,255,255,0.4);
+        border-radius: 30px;
+
+        font-size: 13px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+
+        margin-bottom: 25px;
+
+        backdrop-filter: blur(10px);
+
+        color: #ffd3b8;
+    }
+
+
+    .hero-title {
+        font-family: "Playfair Display", serif;
+
+        font-size: clamp(48px, 6vw, 82px);
+
+        line-height: 1.02;
+
+        max-width: 720px;
+
+        margin-bottom: 25px;
+
+        letter-spacing: -2px;
+    }
+
+    .hero-title span {
+        color: #f28b58;
+        font-style: italic;
+    }
+
+
+    .hero-description {
+        max-width: 550px;
+
+        color: #eee1d9;
+
+        font-size: 17px;
+
+        line-height: 1.8;
+
+        margin-bottom: 35px;
+    }
+
+
+    .hero-buttons {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+
+    .primary-btn {
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        background: #d35427;
+
+        color: white;
+
+        padding: 15px 28px;
+
+        border-radius: 35px;
+
+        font-weight: 700;
+
+        transition: 0.3s;
+    }
+
+    .primary-btn:hover {
+        background: #ed7040;
+        transform: translateY(-3px);
+    }
+
+
+    .secondary-btn {
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 14px 27px;
+
+        border-radius: 35px;
+
+        border: 1px solid rgba(255,255,255,0.5);
+
+        color: white;
+
+        backdrop-filter: blur(10px);
+
+        transition: 0.3s;
+    }
+
+    .secondary-btn:hover {
+        background: white;
+        color: #2b211b;
+    }
+
+
+    /* Bottom food indicators */
+
+    .food-indicators {
+        position: absolute;
+
+        bottom: 35px;
+        right: 7%;
+
+        z-index: 5;
+
+        display: flex;
+        gap: 10px;
+    }
+
+    .food-indicators span {
+        width: 38px;
+        height: 4px;
+
+        border-radius: 10px;
+
+        background: rgba(255,255,255,0.45);
+    }
+
+    .food-indicators span:first-child {
+        background: #f28b58;
+    }
+
+
+    /* ================================
+       FEATURE STRIP
+    ================================= */
+
+    .features {
+        width: 86%;
+        max-width: 1200px;
+
+        margin: -45px auto 0;
+
+        position: relative;
+        z-index: 10;
+
+        background: #fffaf5;
+
+        border-radius: 25px;
+
+        box-shadow: 0 15px 45px rgba(50,30,20,0.12);
+
+        display: grid;
+
+        grid-template-columns: repeat(3, 1fr);
+
+        overflow: hidden;
+    }
+
+
+    .feature {
+        padding: 30px;
+
+        text-align: center;
+
+        border-right: 1px solid #eadbd0;
+    }
+
+    .feature:last-child {
+        border-right: none;
+    }
+
+
+    .feature-icon {
+        font-size: 30px;
+
+        margin-bottom: 10px;
+    }
+
+
+    .feature h3 {
+        font-family: "Playfair Display", serif;
+
+        font-size: 21px;
+
+        margin-bottom: 7px;
+    }
+
+
+    .feature p {
+        color: #786960;
+
+        font-size: 13px;
+    }
+
+
+    /* ================================
+       SECTION
+    ================================= */
+
+    .section {
+        width: 86%;
+        max-width: 1200px;
+
+        margin: 100px auto;
+    }
+
+
+    .section-heading {
+        text-align: center;
+
+        margin-bottom: 45px;
+    }
+
+
+    .section-heading .mini {
+        color: #d35427;
+
+        text-transform: uppercase;
+
+        letter-spacing: 3px;
+
+        font-size: 12px;
+
+        font-weight: 700;
+    }
+
+
+    .section-heading h2 {
+        font-family: "Playfair Display", serif;
+
+        font-size: 43px;
+
+        margin: 10px 0;
+    }
+
+
+    .section-heading p {
+        color: #796d66;
+
+        max-width: 600px;
+
+        margin: auto;
+
+        line-height: 1.7;
+    }
+
+
+    /* ================================
+       FOOD CARDS
+    ================================= */
+
+    .food-grid {
+        display: grid;
+
+        grid-template-columns: repeat(4, 1fr);
+
+        gap: 22px;
+    }
+
+
+    .food-card {
+        background: white;
+
+        border-radius: 22px;
+
+        overflow: hidden;
+
+        box-shadow: 0 8px 30px rgba(50,30,20,0.08);
+
+        transition: 0.35s;
+    }
+
+
+    .food-card:hover {
+        transform: translateY(-8px);
+
+        box-shadow: 0 18px 40px rgba(50,30,20,0.15);
+    }
+
+
+    .food-image {
+        height: 230px;
+
+        overflow: hidden;
+    }
+
+
+    .food-image img {
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+
+        transition: 0.5s;
+    }
+
+
+    .food-card:hover img {
+        transform: scale(1.08);
+    }
+
+
+    .food-info {
+        padding: 20px;
+    }
+
+
+    .food-info h3 {
+        font-family: "Playfair Display", serif;
+
+        font-size: 21px;
+
+        margin-bottom: 7px;
+    }
+
+
+    .food-info p {
+        color: #81736b;
+
+        font-size: 13px;
+
+        line-height: 1.5;
+    }
+
+
+    /* ================================
+       STORY
+    ================================= */
+
+    .story {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 70px;
+
+        align-items: center;
+    }
+
+
+    .story-image {
+        height: 480px;
+
+        border-radius: 30px;
+
+        overflow: hidden;
+    }
+
+
+    .story-image img {
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+    }
+
+
+    .story-text .mini {
+        color: #d35427;
+
+        text-transform: uppercase;
+
+        letter-spacing: 3px;
+
+        font-size: 12px;
+
+        font-weight: 700;
+    }
+
+
+    .story-text h2 {
+        font-family: "Playfair Display", serif;
+
+        font-size: 45px;
+
+        line-height: 1.15;
+
+        margin: 15px 0 20px;
+    }
+
+
+    .story-text p {
+        color: #756961;
+
+        line-height: 1.9;
+
+        margin-bottom: 20px;
+    }
+
+
+    .signature {
+        font-family: "Playfair Display", serif;
+
+        color: #d35427;
+
+        font-size: 22px;
+
+        font-style: italic;
+    }
+
+
+    /* ================================
+       QUOTE
+    ================================= */
+
+    .quote-section {
+        min-height: 380px;
+
+        border-radius: 30px;
+
+        overflow: hidden;
+
+        position: relative;
+
+        background-image:
+        url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=85");
+
+        background-size: cover;
+
+        background-position: center;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        text-align: center;
+    }
+
+
+    .quote-overlay {
+        position: absolute;
+
+        inset: 0;
+
+        background: rgba(35,23,17,0.72);
+    }
+
+
+    .quote-content {
+        position: relative;
+
+        z-index: 2;
+
+        color: white;
+
+        padding: 40px;
+
+        max-width: 750px;
+    }
+
+
+    .quote-content h2 {
+        font-family: "Playfair Display", serif;
+
+        font-size: 42px;
+
+        line-height: 1.3;
+
+        margin-bottom: 15px;
+    }
+
+
+    .quote-content p {
+        color: #e7dcd5;
+
+        line-height: 1.8;
+    }
+
+
+    /* ================================
+       RESPONSIVE
+    ================================= */
+
+    @media(max-width: 900px) {
+
+        .hero {
+            min-height: 650px;
         }
 
-        .nav-links a:hover{
-            color:#ffcc00;
+        .hero-title {
+            font-size: 55px;
         }
 
-        /* Hero Slider */
-
-        .hero{
-            width:100%;
-            height:100vh;
-            position:relative;
-            overflow:hidden;
+        .food-grid {
+            grid-template-columns: repeat(2, 1fr);
         }
 
-        .slides{
-            width:400%;
-            height:100%;
-            display:flex;
-            animation:slide 20s infinite;
+        .story {
+            grid-template-columns: 1fr;
+            gap: 35px;
         }
 
-        .slide{
-            width:100%;
-            height:100vh;
-            position:relative;
-            background-size:cover;
-            background-position:center;
-            animation:zoom 20s infinite;
+        .features {
+            grid-template-columns: 1fr;
         }
 
-        .slide1{
-            background-image:url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1470&auto=format&fit=crop');
+        .feature {
+            border-right: none;
+            border-bottom: 1px solid #eadbd0;
         }
 
-        .slide2{
-            background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1470&auto=format&fit=crop');
+        .feature:last-child {
+            border-bottom: none;
+        }
+    }
+
+
+    @media(max-width: 600px) {
+
+        .hero {
+            min-height: 680px;
         }
 
-        .slide3{
-            background-image:url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1481&auto=format&fit=crop');
+        .hero-content {
+            width: 88%;
         }
 
-        .slide4{
-            background-image:url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1470&auto=format&fit=crop');
+        .hero-title {
+            font-size: 47px;
         }
 
-        .overlay{
-            position:absolute;
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-            background:rgba(0,0,0,0.55);
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            text-align:center;
-            color:white;
-            flex-direction:column;
-            padding:20px;
+        .hero-description {
+            font-size: 15px;
         }
 
-        .overlay h1{
-            font-size:75px;
-            margin-bottom:20px;
+        .food-grid {
+            grid-template-columns: 1fr;
         }
 
-        .overlay p{
-            font-size:28px;
-            margin-bottom:30px;
+        .section {
+            width: 90%;
+            margin: 70px auto;
         }
 
-        .btn{
-            padding:15px 35px;
-            background:#ff9800;
-            color:white;
-            border:none;
-            border-radius:30px;
-            text-decoration:none;
-            font-size:22px;
-            transition:0.3s;
+        .section-heading h2,
+        .story-text h2 {
+            font-size: 35px;
         }
 
-        .btn:hover{
-            background:#ff6600;
-            transform:scale(1.05);
+        .story-image {
+            height: 350px;
         }
 
-        @keyframes slide{
-            0%{margin-left:0%;}
-            20%{margin-left:0%;}
-
-            25%{margin-left:-100%;}
-            45%{margin-left:-100%;}
-
-            50%{margin-left:-200%;}
-            70%{margin-left:-200%;}
-
-            75%{margin-left:-300%;}
-            95%{margin-left:-300%;}
-
-            100%{margin-left:0%;}
+        .quote-content h2 {
+            font-size: 31px;
         }
 
-        @keyframes zoom{
-            0%{
-                transform:scale(1);
-            }
-            50%{
-                transform:scale(1.1);
-            }
-            100%{
-                transform:scale(1);
-            }
+        .food-indicators {
+            right: 6%;
         }
+    }
 
-        /* Features */
+</style>
 
-        .features{
-            display:flex;
-            justify-content:center;
-            gap:30px;
-            padding:70px 20px;
-            flex-wrap:wrap;
-        }
+{% endblock %}
 
-        .feature-box{
-            width:280px;
-            background:white;
-            padding:30px;
-            border-radius:20px;
-            text-align:center;
-            box-shadow:0 5px 15px rgba(0,0,0,0.1);
-            transition:0.3s;
-        }
 
-        .feature-box:hover{
-            transform:translateY(-10px);
-        }
+{% block content %}
 
-        .feature-box h2{
-            margin:15px 0;
-            color:#333;
-        }
+<!-- =================================
+     HERO
+================================= -->
 
-        .feature-box p{
-            color:#666;
-        }
+<section class="hero">
 
-        /* Popular Foods */
+    <div class="hero-slide"></div>
+    <div class="hero-slide"></div>
+    <div class="hero-slide"></div>
+    <div class="hero-slide"></div>
 
-        .section-title{
-            text-align:center;
-            font-size:45px;
-            margin-bottom:40px;
-            color:#222;
-        }
+    <div class="hero-overlay"></div>
 
-        .foods{
-            display:flex;
-            flex-wrap:wrap;
-            justify-content:center;
-            gap:25px;
-            padding:20px 40px 80px;
-        }
+    <div class="hero-content">
 
-        .food-card{
-            width:300px;
-            background:white;
-            border-radius:20px;
-            overflow:hidden;
-            box-shadow:0 5px 15px rgba(0,0,0,0.15);
-            transition:0.3s;
-        }
-
-        .food-card:hover{
-            transform:scale(1.05);
-        }
-
-        .food-card img{
-            width:100%;
-            height:220px;
-            object-fit:cover;
-        }
-
-        .food-content{
-            padding:20px;
-        }
-
-        .food-content h3{
-            margin-bottom:10px;
-        }
-
-        .rating{
-            color:green;
-            font-weight:bold;
-        }
-
-        /* Offer Banner */
-
-        .offer-banner{
-            margin:50px;
-            background:linear-gradient(to right,#ff9800,#ff5722);
-            padding:50px;
-            text-align:center;
-            color:white;
-            border-radius:25px;
-        }
-
-        .offer-banner h1{
-            font-size:50px;
-            margin-bottom:15px;
-        }
-
-        .offer-banner p{
-            font-size:24px;
-        }
-
-        /* Footer */
-
-        .footer{
-            background:#111;
-            color:white;
-            text-align:center;
-            padding:25px;
-            margin-top:40px;
-        }
-
-        @media(max-width:768px){
-
-            .overlay h1{
-                font-size:45px;
-            }
-
-            .overlay p{
-                font-size:20px;
-            }
-
-            .navbar{
-                padding:15px 20px;
-                flex-direction:column;
-            }
-
-            .nav-links{
-                margin-top:10px;
-            }
-
-        }
-
-    </style>
-</head>
-
-<body>
-
-    <!-- Navbar -->
-
-    <div class="navbar">
-
-        <div class="logo">
-            FoodExpress 🍔
+        <div class="small-label">
+            ✦ Welcome to Foodie
         </div>
 
-        <div class="nav-links">
-            <a href="/">Home</a>
-            <a href="/restaurants/">Restaurants</a>
-            <a href="/offers/">Offers</a>
-            <a href="/cart/">Cart</a>
-            <a href="/register/">Register</a>
-            <a href="/login/">Login</a>
+        <h1 class="hero-title">
+            Good food.<br>
+            <span>Beautiful moments.</span>
+        </h1>
+
+        <p class="hero-description">
+            Discover delicious flavours from your favourite restaurants,
+            carefully prepared and delivered straight to your door.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="/restaurants/" class="primary-btn">
+                Explore Restaurants →
+            </a>
+
+            <a href="/menu/" class="secondary-btn">
+                View Menu
+            </a>
+
         </div>
 
     </div>
 
-    <!-- Hero Section -->
 
-    <div class="hero">
+    <div class="food-indicators">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 
-        <div class="slides">
+</section>
 
-            <div class="slide slide1">
-                <div class="overlay">
-                    <h1>Delicious Food Delivered Fast</h1>
-                    <p>Order your favourite meals anytime anywhere</p>
-                    <a href="/restaurants/" class="btn">Order Now</a>
-                </div>
-            </div>
 
-            <div class="slide slide2">
-                <div class="overlay">
-                    <h1>Fresh & Hot Foods</h1>
-                    <p>Experience restaurant quality at home</p>
-                    <a href="/restaurants/" class="btn">Explore</a>
-                </div>
-            </div>
+<!-- =================================
+     FEATURES
+================================= -->
 
-            <div class="slide slide3">
-                <div class="overlay">
-                    <h1>Best Pizza & Burgers</h1>
-                    <p>Taste the best foods near you</p>
-                    <a href="/restaurants/" class="btn">Order Now</a>
-                </div>
-            </div>
+<section class="features">
 
-            <div class="slide slide4">
-                <div class="overlay">
-                    <h1>Fast Delivery Service</h1>
-                    <p>Delivered to your doorstep quickly</p>
-                    <a href="/restaurants/" class="btn">Start Order</a>
-                </div>
-            </div>
+    <div class="feature">
 
-        </div>
+        <div class="feature-icon">🍽️</div>
+
+        <h3>Curated Flavours</h3>
+
+        <p>
+            Handpicked dishes from wonderful kitchens.
+        </p>
 
     </div>
 
-    <!-- Features -->
 
-    <div class="features">
+    <div class="feature">
 
-        <div class="feature-box">
-            <h2>⚡ Fast Delivery</h2>
-            <p>Get your favourite food delivered in minutes.</p>
-        </div>
+        <div class="feature-icon">⚡</div>
 
-        <div class="feature-box">
-            <h2>🍔 Fresh Food</h2>
-            <p>Hot and delicious meals from top restaurants.</p>
-        </div>
+        <h3>Fresh & Fast</h3>
 
-        <div class="feature-box">
-            <h2>🔥 Best Offers</h2>
-            <p>Exciting discounts and cashback offers daily.</p>
-        </div>
+        <p>
+            Fresh food delivered with care.
+        </p>
 
     </div>
 
-    <!-- Popular Foods -->
 
-    <h1 class="section-title">Popular Foods</h1>
+    <div class="feature">
 
-    <div class="foods">
+        <div class="feature-icon">♥</div>
+
+        <h3>Made With Love</h3>
+
+        <p>
+            Every meal deserves a beautiful moment.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =================================
+     POPULAR FOOD
+================================= -->
+
+<section class="section">
+
+    <div class="section-heading">
+
+        <div class="mini">From our kitchen</div>
+
+        <h2>Something delicious</h2>
+
+        <p>
+            From comforting classics to irresistible favourites,
+            discover something special for every craving.
+        </p>
+
+    </div>
+
+
+    <div class="food-grid">
+
 
         <div class="food-card">
-            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1499&auto=format&fit=crop">
 
-            <div class="food-content">
-                <h3>Cheese Burger</h3>
-                <p>₹149</p>
-                <p class="rating">⭐ 4.8</p>
+            <div class="food-image">
+
+                <img
+                src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=900&q=85"
+                alt="Pizza">
+
             </div>
+
+            <div class="food-info">
+
+                <h3>Classic Pizza</h3>
+
+                <p>
+                    Crispy crust, rich sauce and delicious toppings.
+                </p>
+
+            </div>
+
         </div>
+
 
         <div class="food-card">
-            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1470&auto=format&fit=crop">
 
-            <div class="food-content">
-                <h3>Italian Pizza</h3>
-                <p>₹299</p>
-                <p class="rating">⭐ 4.6</p>
+            <div class="food-image">
+
+                <img
+                src="https://images.unsplash.com/photo-1563379091339-03246963d96c?auto=format&fit=crop&w=900&q=85"
+                alt="Biryani">
+
             </div>
+
+            <div class="food-info">
+
+                <h3>Royal Biryani</h3>
+
+                <p>
+                    Fragrant rice layered with aromatic spices.
+                </p>
+
+            </div>
+
         </div>
+
 
         <div class="food-card">
-            <img src="https://images.unsplash.com/photo-1563379091339-03246963d29a?q=80&w=1374&auto=format&fit=crop">
 
-            <div class="food-content">
-                <h3>Chicken Biriyani</h3>
-                <p>₹249</p>
-                <p class="rating">⭐ 4.9</p>
+            <div class="food-image">
+
+                <img
+                src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=900&q=85"
+                alt="Burger">
+
             </div>
+
+            <div class="food-info">
+
+                <h3>Signature Burger</h3>
+
+                <p>
+                    Juicy, cheesy and perfectly toasted.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="food-card">
+
+            <div class="food-image">
+
+                <img
+                src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=900&q=85"
+                alt="Noodles">
+
+            </div>
+
+            <div class="food-info">
+
+                <h3>Asian Noodles</h3>
+
+                <p>
+                    Wok-tossed noodles packed with flavour.
+                </p>
+
+            </div>
+
         </div>
 
     </div>
 
-    <!-- Offer Banner -->
+</section>
 
-    <div class="offer-banner">
 
-        <h1>🔥 50% OFF Today</h1>
+<!-- =================================
+     OUR STORY
+================================= -->
 
-        <p>On your first order above ₹299</p>
+<section class="section">
+
+    <div class="story">
+
+        <div class="story-image">
+
+            <img
+            src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1100&q=85"
+            alt="Restaurant">
+
+        </div>
+
+
+        <div class="story-text">
+
+            <div class="mini">
+                The Foodie story
+            </div>
+
+            <h2>
+                Where food becomes a memory.
+            </h2>
+
+            <p>
+                Foodie was created for people who believe that
+                great food is more than just a meal.
+            </p>
+
+            <p>
+                It is the aroma, the first bite, the people around
+                the table and the little moments that stay with us.
+            </p>
+
+            <div class="signature">
+                — Foodie
+            </div>
+
+        </div>
 
     </div>
 
-    <!-- Footer -->
+</section>
 
-    <div class="footer">
 
-        <p>© 2026 FoodExpress | All Rights Reserved</p>
+<!-- =================================
+     QUOTE
+================================= -->
+
+<section class="section">
+
+    <div class="quote-section">
+
+        <div class="quote-overlay"></div>
+
+        <div class="quote-content">
+
+            <h2>
+                “Good food is the beginning
+                of a beautiful story.”
+            </h2>
+
+            <p>
+                Find your next favourite dish with Foodie.
+            </p>
+
+        </div>
 
     </div>
 
-</body>
-</html>
+</section>
+
+
+<!-- =================================
+     FINAL CTA
+================================= -->
+
+<section class="section">
+
+    <div class="section-heading">
+
+        <div class="mini">Ready to explore?</div>
+
+        <h2>
+            Your next favourite meal is waiting.
+        </h2>
+
+        <p>
+            Explore restaurants, discover new flavours
+            and order something delicious today.
+        </p>
+
+        <br>
+
+        <a href="/restaurants/" class="primary-btn">
+            Explore Foodie →
+        </a>
+
+    </div>
+
+</section>
+
+
+{% endblock %}

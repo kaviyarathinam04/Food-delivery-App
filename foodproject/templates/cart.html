@@ -1,17 +1,517 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Cart</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-<h1>Your Cart</h1>
+{% block content %}
 
-{% for item in cart_items %}
-    <h3>{{ item }}</h3>
-{% empty %}
-    <h3>Cart Empty</h3>
-{% endfor %}
+<style>
+    * {
+        box-sizing: border-box;
+    }
 
-</body>
-</html>
+    .cart-page {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #fffaf4, #fff1df);
+        padding: 45px 7%;
+    }
+
+    .cart-heading {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+    .cart-heading .small-title {
+        color: #d96b27;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+    .cart-heading h1 {
+        margin: 8px 0;
+        color: #3d2115;
+        font-size: 42px;
+        font-weight: 800;
+    }
+
+    .cart-heading p {
+        color: #806b60;
+        font-size: 16px;
+    }
+
+    .cart-layout {
+        max-width: 1200px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: 1fr 370px;
+        gap: 28px;
+        align-items: start;
+    }
+
+    .cart-items {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .cart-card {
+        background: rgba(255,255,255,0.95);
+        border-radius: 24px;
+        padding: 18px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        box-shadow: 0 10px 30px rgba(80, 42, 20, 0.10);
+        border: 1px solid rgba(120, 70, 30, 0.08);
+        transition: 0.3s ease;
+    }
+
+    .cart-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(80, 42, 20, 0.15);
+    }
+
+    .food-image {
+        width: 125px;
+        height: 125px;
+        border-radius: 20px;
+        overflow: hidden;
+        flex-shrink: 0;
+        background: #eee;
+    }
+
+    .food-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .food-details {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .food-details h3 {
+        margin: 0 0 7px;
+        color: #3d2115;
+        font-size: 21px;
+        font-weight: 800;
+    }
+
+    .food-price {
+        color: #d65c20;
+        font-size: 17px;
+        font-weight: 700;
+        margin-bottom: 13px;
+    }
+
+    .quantity-box {
+        display: inline-flex;
+        align-items: center;
+        background: #fff4e8;
+        border: 1px solid #f1d5bd;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .quantity-box a {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: #a84718;
+        font-size: 21px;
+        font-weight: 800;
+        transition: 0.2s;
+    }
+
+    .quantity-box a:hover {
+        background: #d96b27;
+        color: white;
+    }
+
+    .quantity-number {
+        min-width: 38px;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 800;
+        color: #3d2115;
+    }
+
+    .item-total {
+        text-align: right;
+        min-width: 110px;
+    }
+
+    .item-total span {
+        display: block;
+        color: #9b8477;
+        font-size: 13px;
+        margin-bottom: 4px;
+    }
+
+    .item-total strong {
+        color: #3d2115;
+        font-size: 20px;
+    }
+
+    .remove-btn {
+        margin-top: 10px;
+        display: inline-block;
+        text-decoration: none;
+        color: #b53b2e;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .remove-btn:hover {
+        text-decoration: underline;
+    }
+
+    .summary-card {
+        background: #3b2117;
+        color: white;
+        border-radius: 26px;
+        padding: 28px;
+        box-shadow: 0 15px 40px rgba(60, 30, 15, 0.20);
+        position: sticky;
+        top: 25px;
+    }
+
+    .summary-card h2 {
+        margin: 0 0 25px;
+        font-size: 25px;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 13px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.12);
+        color: #eadbd2;
+    }
+
+    .summary-row strong {
+        color: white;
+    }
+
+    .summary-row.total {
+        border-bottom: none;
+        padding-top: 22px;
+        margin-top: 5px;
+    }
+
+    .summary-row.total span {
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .summary-row.total strong {
+        font-size: 27px;
+        color: #ffb36f;
+    }
+
+    .checkout-btn {
+        width: 100%;
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        background: linear-gradient(135deg, #ff8a3d, #d9531e);
+        color: white;
+        padding: 16px;
+        border-radius: 15px;
+        font-size: 17px;
+        font-weight: 800;
+        margin-top: 20px;
+        transition: 0.3s;
+        box-shadow: 0 8px 20px rgba(217, 91, 31, 0.25);
+    }
+
+    .checkout-btn:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, #ff9b55, #c84718);
+    }
+
+    .clear-btn {
+        width: 100%;
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        color: #ffd4b5;
+        border: 1px solid rgba(255,255,255,0.18);
+        padding: 13px;
+        border-radius: 14px;
+        margin-top: 12px;
+        font-size: 14px;
+        font-weight: 700;
+        transition: 0.3s;
+    }
+
+    .clear-btn:hover {
+        background: rgba(255,255,255,0.08);
+    }
+
+    .continue-shopping {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-top: 18px;
+        color: #ffd0ae;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .continue-shopping:hover {
+        color: white;
+    }
+
+    .empty-cart {
+        max-width: 650px;
+        margin: 40px auto;
+        text-align: center;
+        background: white;
+        padding: 55px 30px;
+        border-radius: 30px;
+        box-shadow: 0 15px 40px rgba(80,42,20,0.10);
+    }
+
+    .empty-icon {
+        width: 90px;
+        height: 90px;
+        margin: auto;
+        border-radius: 50%;
+        background: #fff0df;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 45px;
+    }
+
+    .empty-cart h2 {
+        color: #3d2115;
+        margin: 20px 0 8px;
+        font-size: 28px;
+    }
+
+    .empty-cart p {
+        color: #806b60;
+        margin-bottom: 25px;
+    }
+
+    .shop-btn {
+        display: inline-block;
+        background: #d96524;
+        color: white;
+        padding: 14px 25px;
+        border-radius: 13px;
+        text-decoration: none;
+        font-weight: 800;
+    }
+
+    .shop-btn:hover {
+        background: #b94f17;
+    }
+
+    .secure-text {
+        text-align: center;
+        color: #cdb9ad;
+        font-size: 12px;
+        margin-top: 18px;
+    }
+
+    @media (max-width: 900px) {
+        .cart-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .summary-card {
+            position: static;
+        }
+    }
+
+    @media (max-width: 650px) {
+        .cart-page {
+            padding: 30px 4%;
+        }
+
+        .cart-heading h1 {
+            font-size: 32px;
+        }
+
+        .cart-card {
+            flex-wrap: wrap;
+            padding: 14px;
+        }
+
+        .food-image {
+            width: 100px;
+            height: 100px;
+        }
+
+        .food-details {
+            width: calc(100% - 125px);
+        }
+
+        .item-total {
+            width: 100%;
+            text-align: left;
+            padding-left: 120px;
+        }
+    }
+</style>
+
+
+<div class="cart-page">
+
+    <div class="cart-heading">
+        <div class="small-title">Your Foodie Cart</div>
+        <h1>🛒 My Cart</h1>
+        <p>Fresh food is waiting for you ❤️</p>
+    </div>
+
+
+    {% if cart %}
+
+    <div class="cart-layout">
+
+        <!-- LEFT SIDE : CART ITEMS -->
+        <div class="cart-items">
+
+            {% for item_id, item in cart.items %}
+
+            <div class="cart-card">
+
+                <div class="food-image">
+                    <img src="{{ item.image }}" alt="{{ item.name }}">
+                </div>
+
+                <div class="food-details">
+
+                    <h3>{{ item.name }}</h3>
+
+                    <div class="food-price">
+                        ₹{{ item.price }} / item
+                    </div>
+
+                    <div class="quantity-box">
+
+                        <a href="/cart/decrease/{{ item_id }}/">
+                            −
+                        </a>
+
+                        <div class="quantity-number">
+                            {{ item.quantity }}
+                        </div>
+
+                        <a href="/cart/increase/{{ item_id }}/">
+                            +
+                        </a>
+
+                    </div>
+
+                    <br>
+
+                    <a
+                        href="/cart/remove/{{ item_id }}/"
+                        class="remove-btn"
+                    >
+                        🗑 Remove
+                    </a>
+
+                </div>
+
+                <div class="item-total">
+
+                    <span>Item Total</span>
+
+                    <strong>
+                        ₹{{ item.subtotal }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+
+            <a href="/restaurants/" class="continue-shopping">
+                ← Continue Shopping
+            </a>
+
+        </div>
+
+
+        <!-- RIGHT SIDE : ORDER SUMMARY -->
+        <div class="summary-card">
+
+            <h2>Order Summary</h2>
+
+            <div class="summary-row">
+                <span>Food Total</span>
+                <strong>₹{{ total }}</strong>
+            </div>
+
+            <div class="summary-row">
+                <span>Delivery Fee</span>
+                <strong>₹40</strong>
+            </div>
+
+            <div class="summary-row">
+                <span>Platform Fee</span>
+                <strong>₹10</strong>
+            </div>
+
+            <div class="summary-row total">
+                <span>Grand Total</span>
+                <strong>₹{{ total|add:"50" }}</strong>
+            </div>
+
+
+            <a href="/cart/checkout/" class="checkout-btn">
+                Proceed to Checkout →
+            </a>
+
+            <a href="/cart/clear/" class="clear-btn">
+                🗑 Clear Cart
+            </a>
+
+            <div class="secure-text">
+                🔒 Safe & Secure Checkout
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {% else %}
+
+    <!-- EMPTY CART -->
+
+    <div class="empty-cart">
+
+        <div class="empty-icon">
+            🛒
+        </div>
+
+        <h2>Your cart is empty</h2>
+
+        <p>
+            Looks like you haven't added any delicious food yet.
+        </p>
+
+        <a href="/restaurants/" class="shop-btn">
+            🍕 Explore Food
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

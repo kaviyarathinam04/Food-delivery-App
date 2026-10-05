@@ -1,0 +1,507 @@
+{% extends "base.html" %}
+
+{% block title %}Foodie | Invoice{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+    .invoice-section {
+        padding: 60px 0 80px;
+        background: #fffaf5;
+        min-height: 75vh;
+    }
+
+    .invoice-wrapper {
+        max-width: 850px;
+        margin: auto;
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 18px 50px rgba(70, 35, 10, 0.08);
+    }
+
+    .invoice-top {
+        padding: 35px;
+        background: linear-gradient(
+            135deg,
+            #fff0e2,
+            #fffaf5
+        );
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .invoice-brand {
+        font-family: "DM Serif Display", serif;
+        font-size: 38px;
+        color: var(--orange);
+    }
+
+    .invoice-brand span {
+        color: var(--brown);
+    }
+
+    .invoice-title {
+        text-align: right;
+    }
+
+    .invoice-title h1 {
+        font-family: "DM Serif Display", serif;
+        color: var(--brown);
+        font-size: 32px;
+        margin-bottom: 5px;
+    }
+
+    .invoice-title p {
+        color: var(--muted);
+        font-size: 13px;
+    }
+
+    .invoice-body {
+        padding: 35px;
+    }
+
+    .invoice-meta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        margin-bottom: 30px;
+    }
+
+    .meta-box {
+        padding: 20px;
+        background: #fffaf6;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+    }
+
+    .meta-box h3 {
+        font-size: 13px;
+        color: var(--orange);
+        margin-bottom: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .meta-box p {
+        color: var(--brown);
+        font-size: 14px;
+        line-height: 1.7;
+        margin: 0;
+    }
+
+    .invoice-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+
+    .invoice-table th {
+        text-align: left;
+        padding: 14px;
+        background: #f8f3ed;
+        color: var(--brown);
+        font-size: 13px;
+    }
+
+    .invoice-table td {
+        padding: 16px 14px;
+        border-bottom: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 14px;
+    }
+
+    .invoice-table td:last-child,
+    .invoice-table th:last-child {
+        text-align: right;
+    }
+
+    .total-area {
+        max-width: 350px;
+        margin-left: auto;
+        margin-top: 25px;
+    }
+
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        color: var(--muted);
+        font-size: 14px;
+    }
+
+    .grand-total {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 18px;
+        margin-top: 8px;
+        border-top: 2px solid var(--brown);
+        color: var(--brown);
+        font-size: 22px;
+        font-weight: 800;
+    }
+
+    .invoice-footer {
+        padding: 25px 35px;
+        background: #fffaf6;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .thank-you {
+        color: var(--muted);
+        font-size: 13px;
+    }
+
+    .invoice-buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .invoice-btn {
+        display: inline-block;
+        padding: 11px 20px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 800;
+        transition: 0.2s;
+    }
+
+    .home-btn {
+        background: var(--orange);
+        color: white;
+    }
+
+    .orders-btn {
+        border: 1px solid var(--border);
+        color: var(--brown);
+        background: white;
+    }
+
+    .invoice-btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .no-order {
+        max-width: 650px;
+        margin: 60px auto;
+        text-align: center;
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 50px 25px;
+    }
+
+    .no-order h2 {
+        font-family: "DM Serif Display", serif;
+        color: var(--brown);
+        font-size: 32px;
+        margin-bottom: 10px;
+    }
+
+    .no-order p {
+        color: var(--muted);
+        margin-bottom: 25px;
+    }
+
+    @media (max-width: 700px) {
+
+        .invoice-top {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .invoice-title {
+            text-align: left;
+        }
+
+        .invoice-meta {
+            grid-template-columns: 1fr;
+        }
+
+        .invoice-body {
+            padding: 22px;
+        }
+
+        .invoice-top {
+            padding: 25px;
+        }
+
+        .invoice-footer {
+            padding: 22px;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .invoice-table {
+            font-size: 12px;
+        }
+
+        .invoice-table th,
+        .invoice-table td {
+            padding: 10px 7px;
+        }
+
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<section class="invoice-section">
+
+    <div class="container">
+
+        {% if order %}
+
+        <div class="invoice-wrapper">
+
+            <!-- HEADER -->
+
+            <div class="invoice-top">
+
+                <div class="invoice-brand">
+                    Food<span>ie</span>
+                </div>
+
+                <div class="invoice-title">
+
+                    <h1>
+                        INVOICE
+                    </h1>
+
+                    <p>
+                        Order #{{ order.id }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- BODY -->
+
+            <div class="invoice-body">
+
+                <div class="invoice-meta">
+
+                    <div class="meta-box">
+
+                        <h3>
+                            Customer Details
+                        </h3>
+
+                        <p>
+                            <strong>
+                                {{ order.customer_name }}
+                            </strong>
+                            <br>
+
+                            {{ order.phone }}
+                            <br>
+
+                            {{ order.address }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="meta-box">
+
+                        <h3>
+                            Order Details
+                        </h3>
+
+                        <p>
+
+                            Order ID:
+                            <strong>
+                                #{{ order.id }}
+                            </strong>
+
+                            <br>
+
+                            Payment:
+                            {{ order.get_payment_method_display }}
+
+                            <br>
+
+                            Status:
+                            {{ order.get_status_display }}
+
+                            <br>
+
+                            Date:
+                            {{ order.created_at|date:"d M Y, h:i A" }}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ORDER TABLE -->
+
+                <table class="invoice-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Description
+                            </th>
+
+                            <th>
+                                Qty
+                            </th>
+
+                            <th>
+                                Amount
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                Foodie Food Order
+                            </td>
+
+                            <td>
+                                —
+                            </td>
+
+                            <td>
+                                ₹{{ order.total_amount }}
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+
+                <!-- TOTAL -->
+
+                <div class="total-area">
+
+                    <div class="total-row">
+
+                        <span>
+                            Food Total
+                        </span>
+
+                        <span>
+                            ₹{{ order.total_amount }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="total-row">
+
+                        <span>
+                            Delivery Fee
+                        </span>
+
+                        <span>
+                            FREE
+                        </span>
+
+                    </div>
+
+
+                    <div class="grand-total">
+
+                        <span>
+                            Total
+                        </span>
+
+                        <span>
+                            ₹{{ order.total_amount }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FOOTER -->
+
+            <div class="invoice-footer">
+
+                <div class="thank-you">
+                    Thank you for ordering with Foodie ❤️
+                </div>
+
+                <div class="invoice-buttons">
+
+                    <a
+                        href="{% url 'orders:my_orders' %}"
+                        class="invoice-btn orders-btn"
+                    >
+                        📦 My Orders
+                    </a>
+
+                    <a
+                        href="{% url 'home' %}"
+                        class="invoice-btn home-btn"
+                    >
+                        🏠 Home
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <div class="no-order">
+
+            <h2>
+                No Invoice Found
+            </h2>
+
+            <p>
+                Please place an order first to view your invoice.
+            </p>
+
+            <a
+                href="{% url 'menu:list' %}"
+                class="invoice-btn home-btn"
+            >
+                🍽️ Explore Menu
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

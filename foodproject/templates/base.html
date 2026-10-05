@@ -1,0 +1,438 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}Foodie{% endblock %}
+    </title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+          rel="stylesheet">
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: #fffaf5;
+            color: #2b211b;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+
+        /* NAVBAR */
+
+        .navbar {
+            width: 100%;
+            padding: 18px 7%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            background: rgba(255, 250, 245, 0.97);
+
+            border-bottom: 1px solid #f0dfd1;
+
+            position: sticky;
+            top: 0;
+
+            z-index: 1000;
+
+            backdrop-filter: blur(15px);
+        }
+
+
+        .logo {
+            font-family: "Playfair Display", serif;
+
+            font-size: 30px;
+            font-weight: 700;
+
+            color: #d35427;
+        }
+
+        .logo span {
+            color: #33251e;
+        }
+
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 27px;
+        }
+
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 600;
+
+            color: #493a31;
+
+            transition: 0.3s;
+        }
+
+
+        .nav-links a:hover {
+            color: #d35427;
+        }
+
+
+        .cart-button {
+            background: #d35427;
+
+            color: white !important;
+
+            padding: 11px 18px;
+
+            border-radius: 30px;
+        }
+
+
+        .cart-button:hover {
+            background: #b8421d !important;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* FOOTER */
+
+        footer {
+            background: #251a15;
+
+            color: white;
+
+            padding: 60px 7% 25px;
+
+            margin-top: 80px;
+        }
+
+
+        .footer-grid {
+            display: grid;
+
+            grid-template-columns:
+                2fr 1fr 1fr 1fr;
+
+            gap: 45px;
+        }
+
+
+        .footer-logo {
+            font-family: "Playfair Display", serif;
+
+            font-size: 30px;
+
+            color: #f28b58;
+
+            margin-bottom: 15px;
+        }
+
+
+        .footer-description {
+            max-width: 400px;
+
+            color: #cbbcb3;
+
+            font-size: 14px;
+
+            line-height: 1.8;
+        }
+
+
+        .footer-heading {
+            font-weight: 700;
+
+            margin-bottom: 18px;
+        }
+
+
+        .footer-links {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 12px;
+        }
+
+
+        .footer-links a {
+            color: #cbbcb3;
+
+            font-size: 14px;
+
+            transition: 0.3s;
+        }
+
+
+        .footer-links a:hover {
+            color: #f28b58;
+        }
+
+
+        .footer-bottom {
+            margin-top: 45px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid #493932;
+
+            text-align: center;
+
+            color: #9f9189;
+
+            font-size: 13px;
+        }
+
+
+        /* MOBILE */
+
+        @media(max-width: 800px) {
+
+            .navbar {
+                padding: 15px 5%;
+            }
+
+            .logo {
+                font-size: 25px;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .nav-links a {
+                font-size: 12px;
+            }
+
+            .nav-links a:nth-child(3),
+            .nav-links a:nth-child(4) {
+                display: none;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+
+        @media(max-width: 500px) {
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+
+    {% block extra_css %}
+    {% endblock %}
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <a href="/" class="logo">
+            Food<span>ie</span> 🍴
+        </a>
+
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/restaurants/">
+                Restaurants
+            </a>
+
+            <a href="/menu/">
+                Menu
+            </a>
+
+            <a href="/offers/">
+                Offers
+            </a>
+
+            <a href="/cart/"
+               class="cart-button">
+                🛒 Cart
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main>
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div class="footer-grid">
+
+
+            <div>
+
+                <div class="footer-logo">
+                    Foodie 🍴
+                </div>
+
+                <p class="footer-description">
+
+                    Delicious food, beautiful moments
+                    and unforgettable flavours —
+                    all in one place.
+
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <div class="footer-heading">
+                    Explore
+                </div>
+
+                <div class="footer-links">
+
+                    <a href="/">
+                        Home
+                    </a>
+
+                    <a href="/restaurants/">
+                        Restaurants
+                    </a>
+
+                    <a href="/menu/">
+                        Menu
+                    </a>
+
+                    <a href="/offers/">
+                        Offers
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <div class="footer-heading">
+                    Account
+                </div>
+
+                <div class="footer-links">
+
+                    <a href="/login/">
+                        Login
+                    </a>
+
+                    <a href="/register/">
+                        Register
+                    </a>
+
+                    <a href="/orders/">
+                        My Orders
+                    </a>
+
+                    <a href="/cart/">
+                        My Cart
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <div class="footer-heading">
+                    Contact
+                </div>
+
+                <div class="footer-links">
+
+                    <a href="#">
+                        📍 Tamil Nadu
+                    </a>
+
+                    <a href="#">
+                        📞 +91 98765 43210
+                    </a>
+
+                    <a href="#">
+                        ✉️ foodie@example.com
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            Foodie made with ❤️ · Fresh food, happy moments
+
+        </div>
+
+    </footer>
+
+
+</body>
+
+</html>                     
